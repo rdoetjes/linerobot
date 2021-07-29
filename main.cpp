@@ -14,7 +14,7 @@ static const int PinsIn[] { 15, 16, 1, 4, 5, 6, 10, 11 };
 static QTR8D *lineSensor;
 
 //PID
-static const double KP = 0.64f;
+static const double KP = 0.0285f;
 static const double KD = 0.00f;
 
 using namespace std;
@@ -42,7 +42,7 @@ int main(){
   m1->forward(900);
   m1->forward(900);
 
-  const int targetLineValue = 64;
+  const int targetLineValue = 3000;
   static double lastError = 0;
 
   while(1){
