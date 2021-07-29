@@ -13,10 +13,6 @@ static Motor *m2;
 static const int PinsIn[] { 15, 16, 1, 4, 5, 6, 10, 11 };
 static QTR8D *lineSensor;
 
-//PID
-static const double KP = 0.0285f;
-static const double KD = 0.00f;
-
 using namespace std;
 
 static void setup(){
@@ -38,12 +34,16 @@ void destruct(){
 }
 
 int main(){
-  setup();
-  m1->forward(900);
-  m1->forward(900);
-
+  //PID
+  static const double KP = 0.0333f;
+  static const double KD = 0.00f;
   const int targetLineValue = 3000;
   static double lastError = 0;
+
+  setup();
+
+  m1->forward(900);
+  m1->forward(900);
 
   while(1){
     unsigned int lineValue = lineSensor->readByte();
