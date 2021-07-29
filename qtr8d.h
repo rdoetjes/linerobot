@@ -5,11 +5,11 @@
 class QTR8D{
 
   public:
-    int *PinsIn = nullptr;
+    const int *PinsIn = nullptr;
     int nrPins;
 
-    QTR8D(int PinsIn[], int size);
-    int readByte();
+    QTR8D(const int PinsIn[], int size);
+    unsigned int readByte();
     ~QTR8D();
 
   private:

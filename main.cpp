@@ -5,10 +5,17 @@
 #include <iostream>
 #include <unistd.h>
 
+#define constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
+#define MAX_SPEED 100
+
 static Motor *m1;
 static Motor *m2;
-static int PinsIn[] { 15, 16, 1, 4, 5, 6, 10, 11 };
+static const int PinsIn[] { 15, 16, 1, 4, 5, 6, 10, 11 };
 static QTR8D *lineSensor;
+
+//PID
+static const double KP = 0.64f;
+static const double KD = 0.00f;
 
 using namespace std;
 
@@ -32,13 +39,25 @@ void destruct(){
 
 int main(){
   setup();
-	
-  while(1){
-    cout << lineSensor->readByte() << endl;
+  m1->forward(900);
+  m1->forward(900);
 
-    m1->forward(512);
-    m2->forward(512);
-    usleep(10000);
+  const int targetLineValue = 64;
+  static double lastError = 0;
+
+  while(1){
+    unsigned int lineValue = lineSensor->readByte();
+
+    double error = (double)lineValue - (double)targetLineValue;
+
+    double adjustment = KP*error + KD*(error - lastError);
+
+    lastError = error;
+    
+    std::cout << lineValue << " " << error << " " << adjustment  << " m1 speed " << constrain(MAX_SPEED + adjustment, 0, MAX_SPEED) << " m2 speed " << constrain(MAX_SPEED - adjustment, 0, MAX_SPEED) << std::endl;
+    usleep(2000);
+    m1->setSpeed(constrain(MAX_SPEED + adjustment, 0, MAX_SPEED));
+    m2->setSpeed(constrain(MAX_SPEED - adjustment, 0, MAX_SPEED));
   }
 
   destruct();
