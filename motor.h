@@ -1,7 +1,7 @@
 #ifndef MOTOR_H
 #define MOTOR_H
 
-#include <wiringPi.h>
+#include <pigpio.h>
 
 class Motor {
 

@@ -1,6 +1,7 @@
 #ifndef QTR8D_H
 #define QTR8D_H
-#include <wiringPi.h>
+#include <pigpiod_if2.h>
+#include <pigpio.h>
 #include <cstdint>
 
 class QTR8D{

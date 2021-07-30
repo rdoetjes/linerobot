@@ -10,12 +10,10 @@ Motor::Motor(int dir1, int dir2, int pwm){
   this->dir2 = dir2;
   this->pwm = pwm;
 
-  pinMode(dir1, OUTPUT);
-  pinMode(dir2, OUTPUT);
-  pinMode(pwm, PWM_OUTPUT);
-  pwmSetMode(PWM_MODE_MS);
-  pwmSetClock(1000); //5kHz
-  pwmSetRange(1000);
+  gpioSetMode(dir1, PI_OUTPUT);
+  gpioSetMode(dir2, PI_OUTPUT);
+  gpioSetMode(pwm, PI_ALT5);
+  gpioPWM(pwm, 0);
 }
 
 long Motor::map(long x, long in_min, long in_max, long out_min, long out_max) {
@@ -23,25 +21,25 @@ long Motor::map(long x, long in_min, long in_max, long out_min, long out_max) {
 }
 
 void Motor::setSpeed(int speed){
-   pwmWrite(pwm, map(speed, 0, 100, 0, 1024));
+   gpioPWM(pwm, map(speed, 0, 100, 0, 255));
 }
 
 void Motor::forward(int speed){
-   digitalWrite(dir1, HIGH);
-   digitalWrite(dir2, LOW);
-   pwmWrite(pwm, map(speed, 0, 100, 0, 1024));
+   gpioWrite(dir1, PI_HIGH);
+   gpioWrite(dir2, PI_LOW);
+   gpioPWM(pwm, map(speed, 0, 100, 0, 255));
 }
 
 void Motor::reverse(int speed){
-   digitalWrite(dir1, LOW);
-   digitalWrite(dir2, HIGH);
-   pwmWrite(pwm, map(speed, 0, 100, 0, 1024));
+   gpioPWM(dir1, PI_LOW);
+   gpioPWM(dir2, PI_HIGH);
+   gpioPWM(pwm, map(speed, 0, 100, 0, 255));
 }
 
 void Motor::stop(){
-   digitalWrite(dir1, LOW);
-   digitalWrite(dir2, LOW);
-   pwmWrite(pwm, 0);
+   gpioPWM(dir1, PI_LOW);
+   gpioPWM(dir2, PI_LOW);
+   gpioPWM(pwm, 0);
 }
 
 Motor::~Motor(){

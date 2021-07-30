@@ -1,6 +1,6 @@
 CXX      := -c++
 CXXFLAGS := -std=c++17 -pedantic-errors -Wall -Wextra -Werror
-LDFLAGS  := -L/usr/lib -lwiringPi -lpthread
+LDFLAGS  := -L/usr/lib -lrt -lpthread -lpigpio -lpigpiod_if2
 BUILD    := ./build
 OBJ_DIR  := $(BUILD)/objects
 APP_DIR  := $(BUILD)/apps

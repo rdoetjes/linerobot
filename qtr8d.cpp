@@ -7,8 +7,8 @@ QTR8D::QTR8D(const int PinsIn[], int size, int targetValue){
   this->targetValue = targetValue;
 
   for(int i=0; i<8; i++) {
-    pinMode(PinsIn[i], INPUT);
-    pullUpDnControl(PinsIn[i], PUD_UP);
+    gpioSetMode(PinsIn[i], PI_INPUT);
+    gpioSetPullUpDown(PinsIn[i], PI_PUD_UP);
   }
 }
 
@@ -16,7 +16,7 @@ int QTR8D::readSensorBits(){
    int sensor = 0;
 
    for(int i=0; i<8; i++)
-     if (digitalRead(PinsIn[i]) == 1) sensor |= 1 << i;
+     if (gpioRead(PinsIn[i]) == 1) sensor |= 1 << i;
    
    return sensor;  
 }

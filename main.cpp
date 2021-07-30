@@ -1,16 +1,17 @@
 #include <stddef.h>
-#include <wiringPi.h>
 #include "motor.h"
 #include "qtr8d.h"
 #include <iostream>
 #include <unistd.h>
+#include <pigpio.h>
+#include <pigpiod_if2.h>
 
 #define constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
 #define MAX_SPEED 50
 
 static Motor *m1;
 static Motor *m2;
-static const int PinsIn[] { 15, 16, 1, 4, 5, 6, 10, 11 };
+static const int PinsIn[] { 14, 15, 18, 23, 24, 25, 8, 7 };
 static QTR8D *lineSensor;
 
 const int targetLineValue = 4000;
@@ -18,14 +19,17 @@ const int targetLineValue = 4000;
 using namespace std;
 
 static void setup(){
-  wiringPiSetup();
- 
+  if (gpioInitialise() < 0){
+    std::cerr << "could not connect to pigpiod!\n";
+    exit(0);
+  }
+
   lineSensor = new QTR8D(PinsIn, sizeof(PinsIn)/sizeof(PinsIn[0]), targetLineValue);
 	
-  m1=new Motor(2, 0, 26); //Pi Pin: 13, 11, 32
+  m1=new Motor(27, 17, 12); //Pi Pin: 13, 11, 32
   m1->stop();
 
-  m2=new Motor(24, 25, 23); //Pi Pin: 35, 37, 33
+  m2=new Motor(19, 26, 13); //Pi Pin: 35, 37, 33
   m2->stop();
 }
 
@@ -47,8 +51,10 @@ int main(int argc, char **argv){
     unsigned int lineValue = lineSensor->readSensorValue();
 
     if (lineValue == 9000){
+      std::cout << "FINISH LINE" << std::endl;
       m1->stop();
       m2->stop();
+      gpioTerminate();
       exit(0);
     }
 
