@@ -14,7 +14,8 @@ Motor::Motor(int dir1, int dir2, int pwm){
   pinMode(dir2, OUTPUT);
   pinMode(pwm, PWM_OUTPUT);
   pwmSetMode(PWM_MODE_MS);
-  pwmSetClock(10000);
+  pwmSetClock(1000); //5kHz
+  pwmSetRange(1000);
 }
 
 long Motor::map(long x, long in_min, long in_max, long out_min, long out_max) {
