@@ -12,8 +12,8 @@ Motor::Motor(int dir1, int dir2, int pwm){
 
   pinMode(dir1, OUTPUT);
   pinMode(dir2, OUTPUT);
-  pwmSetMode(PWM_MODE_MS);
   pinMode(pwm, PWM_OUTPUT);
+  pwmSetMode(PWM_MODE_MS);
   pwmSetClock(10000);
 }
 
