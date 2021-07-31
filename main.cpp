@@ -79,6 +79,7 @@ int main(int argc, char **argv){
     usleep(200);   //QRT8D settles in 2500uS but 2500uS overshot 200uS seemed to be the golden time out
   }
 
+  //this code is superflicous and never called, just here for completion.
   destruct();
 
   return 0;
