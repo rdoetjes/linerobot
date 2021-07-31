@@ -1,12 +1,13 @@
 #include "qtr8d.h"
 #include <iostream>
 
+//Pass in an array with 8 pins (size should be 8) for QTR8 but this class can be inherited and easily turned into a 16 channel sensor
 QTR8D::QTR8D(const int PinsIn[], int size, int targetValue){
   this->PinsIn = PinsIn;
   this->nrPins = size;
   this->targetValue = targetValue;
-
-  for(int i=0; i<8; i++) {
+    
+  for(int i=0; i<nrPins; i++) {
     gpioSetMode(PinsIn[i], PI_INPUT);
     gpioSetPullUpDown(PinsIn[i], PI_PUD_UP);
   }
@@ -15,7 +16,7 @@ QTR8D::QTR8D(const int PinsIn[], int size, int targetValue){
 int QTR8D::readSensorBits(){
    int sensor = 0;
 
-   for(int i=0; i<8; i++)
+   for(int i=0; i<nrPins; i++)
      if (gpioRead(PinsIn[i]) == 1) sensor |= 1 << i;
    
    return sensor;  
@@ -36,7 +37,7 @@ int QTR8D::sensorValueOneBitOn(uint8_t bits){
   int result = 0;
   uint8_t mask = 1;
 
-  for(int i=1; i<8; i++){
+  for(int i=1; i<nrPins; i++){
     if ( (mask & bits) != 0 ) {
       result += i * 1000;
       break;	//we can break assoon as we found the bit, as there are no more set bits
@@ -51,7 +52,7 @@ int QTR8D::sensorValueMultipleBitsOn(uint8_t bits){
   uint8_t mask = 1;
   int result = 0;
 
-  for(int i=0; i<8; i++){
+  for(int i=0; i<nrPins; i++){
     if ( (mask & bits) != 0 ) 
       result += i * 1000;
     mask = mask << 1;
@@ -62,7 +63,7 @@ int QTR8D::sensorValueMultipleBitsOn(uint8_t bits){
     mask = 128;
     result = 0;
 
-    for(int i=8; i!=0; i--){
+    for(int i=nrPins; i!=0; i--){
       if ( (mask & bits) != 0 ) {
         result += i * 1000;
         return result;
@@ -76,7 +77,7 @@ int QTR8D::sensorValueMultipleBitsOn(uint8_t bits){
     mask = 1;
     result = 0;
 
-    for(int i=0; i<8; i++){
+    for(int i=0; i<nrPins; i++){
       if ( (mask & bits) != 0 ) {
         result += i * 1000;
         return result;
