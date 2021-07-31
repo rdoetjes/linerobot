@@ -1,7 +1,7 @@
 #include "qtr8d.h"
 #include <iostream>
 
-//Pass in an array with 8 pins (size should be 8) for QTR8 but this class can be inherited and easily turned into a 16 channel sensor
+//Pass in an array with 8 pins (size should be 8) for QTR8 but this class can be inherited and easily turned into a 16 channel sensor, by templating uint8_t
 QTR8D::QTR8D(const int PinsIn[], int size, int targetValue){
   this->PinsIn = PinsIn;
   this->nrPins = size;
