@@ -50,6 +50,7 @@ int main(int argc, char **argv){
   while(1){
     unsigned int lineValue = lineSensor->readSensorValue();
 
+    //9000 is returned when there's a T detected (horizontal line) or crossing; TODO: 9000 should be converted to a nice variable name...  
     if (lineValue == 9000){
       std::cout << "FINISH LINE" << std::endl;
       m1->stop();
@@ -64,13 +65,17 @@ int main(int argc, char **argv){
     double adjustment = KP*error + KD*(error - lastError);
 
     lastError = error;
+
+    //if you start the application with -d, you will get the debug information printed
     if (argc==2 && string(argv[1])=="-d")
       std::cout << lineValue << " " << error << " " << adjustment  
 		<< " m1 speed " << constrain(MAX_SPEED + adjustment, 0, MAX_SPEED) 
 		<< " m2 speed " << constrain(MAX_SPEED - adjustment, 0, MAX_SPEED) << std::endl;
     
+    //set motor speeds depending on adjustment PD calculation
     m1->forward(constrain(MAX_SPEED + adjustment, 0, MAX_SPEED));
     m2->forward(constrain(MAX_SPEED - adjustment, 0, MAX_SPEED));
+	  
     usleep(200);   //QRT8D settles in 2500uS but 2500uS overshot 200uS seemed to be the golden time out
   }
 
