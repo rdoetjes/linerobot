@@ -55,8 +55,8 @@ int main(int argc, char **argv){
       std::cout << "FINISH LINE" << std::endl;
       m1->stop();
       m2->stop();
-      gpioTerminate();
       destruct();
+      gpioTerminate();
       exit(0);
     }
 
