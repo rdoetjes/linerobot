@@ -40,7 +40,7 @@ void destruct(){
 }
 
 int main(int argc, char **argv){
-  //PID
+  //PID we only use P and D because I works over time and it is too slow to matter
   static const double KP = (double)100/(double)targetLineValue;
   static const double KD = 0.00f;
   static double lastError = 0;
@@ -55,6 +55,7 @@ int main(int argc, char **argv){
       m1->stop();
       m2->stop();
       gpioTerminate();
+      destruct();
       exit(0);
     }
 
@@ -70,7 +71,7 @@ int main(int argc, char **argv){
     
     m1->forward(constrain(MAX_SPEED + adjustment, 0, MAX_SPEED));
     m2->forward(constrain(MAX_SPEED - adjustment, 0, MAX_SPEED));
-    usleep(200);
+    usleep(200);   //QRT8D settles in 2500uS but 2500uS overshot 200uS seemed to be the golden time out
   }
 
   destruct();
