@@ -4,6 +4,7 @@
 #include <pigpio.h>
 #include <cstdint>
 
+#define FINISH_LINE 9000
 class QTR8D{
 
   public:
