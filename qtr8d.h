@@ -19,8 +19,12 @@ class QTR8D{
   private:
     int targetValue;
     unsigned int nrBitsSet(int n);
-    int sensorValueOneBitOn(uint8_t bits);
-    int sensorValueMultipleBitsOn(uint8_t bits);
+
+    template<typename T>
+    int sensorValueOneBitOn(T bits);
+
+    template<typename T>
+    int sensorValueMultipleBitsOn(T bits);
 };
 
 #endif

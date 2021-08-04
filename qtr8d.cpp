@@ -33,7 +33,8 @@ unsigned int QTR8D::nrBitsSet(int n){
   return count;
 }
 
-int QTR8D::sensorValueOneBitOn(uint8_t bits){
+template<typename T>
+int QTR8D::sensorValueOneBitOn(T bits){
   int result = 0;
   uint8_t mask = 1;
 
@@ -48,7 +49,8 @@ int QTR8D::sensorValueOneBitOn(uint8_t bits){
   return result;
 }
 
-int QTR8D::sensorValueMultipleBitsOn(uint8_t bits){
+template<typename T>
+int QTR8D::sensorValueMultipleBitsOn(T bits){
   uint8_t mask = 1;
   int result = 0;
 
