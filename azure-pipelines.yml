@@ -15,7 +15,7 @@ steps:
   displayName: 'make'
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(Build.SourcesDirectory)/build/apps/robot'
+    SourceFolder: '$(Build.SourcesDirectory)/build/apps/'
     Contents: '**'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 - task: PublishBuildArtifacts@1
