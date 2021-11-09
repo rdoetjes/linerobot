@@ -10,10 +10,8 @@ pool: 'RaspberryPI'
 
 steps:
 - script: |
-    make clean
-  displayName: 'make clean'
     make
-    displayName: 'make'
+  displayName: 'make'
 - task: CopyFiles@2
   inputs:
     SourceFolder: '$(Build.SourcesDirectory)/build/apps/'
