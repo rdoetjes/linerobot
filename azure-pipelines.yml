@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  vmImage: RaspberryPI
+  vmImage: 'RaspberryPI'
 
 steps:
 - script: |
