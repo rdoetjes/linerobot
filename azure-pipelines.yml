@@ -10,8 +10,17 @@ pool: 'RaspberryPI'
 
 steps:
 - script: |
+    make clean
+    if [ $? -ne 0 ]; then
+        exit 1
+    fi
+  displayName: 'make clean'
+- script: |
     make
-  displayName: 'make'
+    if [ $? -ne 0 ]; then
+        exit 1
+    fi
+  displayName: "make"
 - task: CopyFiles@2
   inputs:
     SourceFolder: '$(Build.SourcesDirectory)/build/apps/'
