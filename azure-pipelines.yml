@@ -15,30 +15,25 @@ parameters:
 
 trigger:
 - main
+pool: 'ubuntu-latest'
 
 stages:
-
-  - stage: Create_Infra
+  - stage: Clean
+    displayName: "make clean"
     jobs:
       - job:
         steps:
-        - task: AzureResourceGroupDeployment@2
-          inputs:
-            azureSubscription: be1ea490-41f5-4d47-9391-01bd8899976a
-            resourceGroupName: rg-linefollower-$(environment)
-
-  - stage: Build
-    jobs:
-      - job:
-        pool: 'RaspberryPI'
-
-        steps:
-        - script: |
+         - script: |
             make clean
             if [ $? -ne 0 ]; then
                 exit 1
             fi
-          displayName: 'make clean'
+
+  - stage: Build
+    displayName: "make"
+    jobs:
+      - job:
+        steps:
         - script: |
             make
             if [ $? -ne 0 ]; then
@@ -56,7 +51,8 @@ stages:
             ArtifactName: 'linefollower'
             publishLocation: 'Container'
 
-  - stage: Deploy
+  - stage: DeployDev
+    displayName: "Deploy to Dev"
     jobs:
      - job:
        steps:
