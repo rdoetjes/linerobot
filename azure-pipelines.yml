@@ -55,7 +55,8 @@ stages:
 
   - stage: DeployDev
     displayName: "Deploy to Dev"
-    
+    variables:
+      - group: YAML-DEV-VARS
     jobs:
       - deployment:
         environment: 'DEV'
