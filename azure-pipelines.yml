@@ -18,7 +18,7 @@ trigger:
 
 stages:
 
-  - stage: Create Infra
+  - stage: Create_Infra
     jobs:
       - job:
         steps:
@@ -67,4 +67,9 @@ stages:
             artifactName: 'drop'
             downloadPath: '$(System.ArtifactsDirectory)'
         
-        
+        - task: CopyFiles@2
+          displayName: 'Copy Files to: /home/pi/linefollower/'
+          inputs:
+            SourceFolder: '$(System.DefaultWorkingDirectory)/_rdoetjes.linerobot/linefollower/'
+            TargetFolder: /home/pi/linefollower/
+            OverWrite: true
