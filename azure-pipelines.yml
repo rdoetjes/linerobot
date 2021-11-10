@@ -21,7 +21,7 @@ pool: 'RaspberryPI'
 stages:
 
   - stage: Build
-    displayName: "make"
+    displayName: "Build linefollower"
     jobs:
       - job:
         steps:
