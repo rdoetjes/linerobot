@@ -54,19 +54,24 @@ stages:
 
   - stage: DeployDev
     displayName: "Deploy to Dev"
+    
     jobs:
-     - job:
-       steps:
-        - task: DownloadBuildArtifacts@1
-          inputs:
-            buildType: 'current'
-            downloadType: 'single'
-            artifactName: 'linefollower'
-            downloadPath: '$(System.ArtifactsDirectory)'
-        
-        - task: CopyFiles@2
-          displayName: 'Copy Files to: /home/pi/linefollower/'
-          inputs:
-            SourceFolder: '$(System.DefaultWorkingDirectory)/build/apps'
-            TargetFolder: /home/pi/linefollower/
-            OverWrite: true
+      - deployment:
+        environment: 'DEV'
+        strategy:
+          runOnce:
+            deploy:                      
+              steps:
+                - task: DownloadBuildArtifacts@1
+                  inputs:
+                    buildType: 'current'
+                    downloadType: 'single'
+                    artifactName: 'linefollower'
+                    downloadPath: '$(System.ArtifactsDirectory)'
+                
+                - task: CopyFiles@2
+                  displayName: 'Copy Files to: /home/pi/linefollower/'
+                  inputs:
+                    SourceFolder: '$(System.DefaultWorkingDirectory)/build/apps'
+                    TargetFolder: /home/pi/linefollower/
+                    OverWrite: true
