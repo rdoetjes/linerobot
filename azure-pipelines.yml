@@ -16,32 +16,55 @@ parameters:
 trigger:
 - main
 
-pool: 'RaspberryPI'
+stages:
 
-steps:
-- script: |
-    make clean
-    if [ $? -ne 0 ]; then
-        exit 1
-    fi
-  displayName: 'make clean'
-- script: |
-    make
-    if [ $? -ne 0 ]; then
-        exit 1
-    fi
-  displayName: "make"
-- task: AzureResourceGroupDeployment@2
-  inputs:
-    azureSubscription: be1ea490-41f5-4d47-9391-01bd8899976a
-    resourceGroupName: rg-linefollower-$(environment)
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: '$(Build.SourcesDirectory)/build/apps/'
-    Contents: '**'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'linefollower'
-    publishLocation: 'Container'
+  - stage: Create Infra
+    jobs:
+      - job:
+        steps:
+        - task: AzureResourceGroupDeployment@2
+          inputs:
+            azureSubscription: be1ea490-41f5-4d47-9391-01bd8899976a
+            resourceGroupName: rg-linefollower-$(environment)
+
+  - stage: Build
+    jobs:
+      - job:
+        pool: 'RaspberryPI'
+
+        steps:
+        - script: |
+            make clean
+            if [ $? -ne 0 ]; then
+                exit 1
+            fi
+          displayName: 'make clean'
+        - script: |
+            make
+            if [ $? -ne 0 ]; then
+                exit 1
+            fi
+          displayName: "make"
+        - task: CopyFiles@2
+          inputs:
+            SourceFolder: '$(Build.SourcesDirectory)/build/apps/'
+            Contents: '**'
+            TargetFolder: '$(Build.ArtifactStagingDirectory)'
+        - task: PublishBuildArtifacts@1
+          inputs:
+            PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+            ArtifactName: 'linefollower'
+            publishLocation: 'Container'
+
+  - stage: Deploy
+    jobs:
+     - job:
+       steps:
+        - task: DownloadBuildArtifacts@1
+          inputs:
+            buildType: 'current'
+            downloadType: 'single'
+            artifactName: 'drop'
+            downloadPath: '$(System.ArtifactsDirectory)'
+        
+        
