@@ -3,6 +3,16 @@
 # Add steps that publish test results, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/c-cpp/gcc
 
+parameters:
+  - name: environment
+    displayName: Environment
+    type: string
+    default: dev
+    values:
+    - dev
+    - tst
+    - prd
+
 trigger:
 - main
 
@@ -21,6 +31,10 @@ steps:
         exit 1
     fi
   displayName: "make"
+- task: AzureResourceGroupDeployment@2
+  inputs:
+    azureSubscription: be1ea490-41f5-4d47-9391-01bd8899976a
+    resourceGroupName: rg-linefollower-$(environment)
 - task: CopyFiles@2
   inputs:
     SourceFolder: '$(Build.SourcesDirectory)/build/apps/'
