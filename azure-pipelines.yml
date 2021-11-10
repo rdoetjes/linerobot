@@ -16,8 +16,7 @@ parameters:
 trigger:
 - main
 
-pool: 
-  vmImage: 'ubuntu-latest'
+pool: 'RaspberryPI'
 
 stages:
   - stage: Clean
@@ -62,7 +61,7 @@ stages:
           inputs:
             buildType: 'current'
             downloadType: 'single'
-            artifactName: 'drop'
+            artifactName: 'linefollower'
             downloadPath: '$(System.ArtifactsDirectory)'
         
         - task: CopyFiles@2
