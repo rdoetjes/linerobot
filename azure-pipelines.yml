@@ -14,9 +14,11 @@ parameters:
     - prd
 
 trigger:
-- dev
-- staging
-- main
+  branches:
+    include:
+      - dev
+      - staging
+      - main
 
 pool: 'RaspberryPI'
 
