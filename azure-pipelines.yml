@@ -48,7 +48,7 @@ stages:
 
   - stage: DeployDev
     #only run deploy when committed on main.
-    condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'), ne(variables['System.PullReuqest.PullrequestId'], 'Null'))
+    condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'), ne(variables['System.PullRequest.PullrequestId'], 'Null'))
     displayName: "Deploy to Dev"
     variables:
       - group: YAML-DEV-VARS
