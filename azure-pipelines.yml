@@ -17,7 +17,7 @@ parameters:
 trigger:
   branches:
     include:
-      - dev
+      - dev*
       - staging
       - main
 
