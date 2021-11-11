@@ -56,12 +56,12 @@ stages:
             publishLocation: 'Container'
 
   - stage: DeployDev
+    condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/main'))
     displayName: "Deploy to Dev"
     variables:
       - group: YAML-DEV-VARS
     jobs:
       - deployment:
-        condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/main'))
         environment: 'DEV'
         strategy:
           runOnce:
