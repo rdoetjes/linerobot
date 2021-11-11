@@ -21,7 +21,7 @@ using namespace std;
 
 static void setup() {
   if (gpioInitialise() < 0) {
-    std::cerr << "could not connect to pigpiod! Run with: sudo robot\n";
+    std::cerr << "Could not connect to pigpiod! Run with: sudo robot\n";
     exit(0);
   }
 
