@@ -38,7 +38,10 @@ stages:
             SourceFolder: '$(Build.SourcesDirectory)/build/apps/'
             Contents: '**'
             TargetFolder: '$(Build.ArtifactStagingDirectory)'
+            
+        #Only build an artefact for main, not for our feature branches
         - task: PublishBuildArtifacts@1
+          condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
           inputs:
             PathtoPublish: '$(Build.ArtifactStagingDirectory)'
             ArtifactName: 'linefollower'
@@ -46,7 +49,7 @@ stages:
 
   - stage: DeployDev
     #only run deploy when committed on main.
-    condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'), ne(variables['System.PullRequest.PullrequestId'], 'Null'))
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
     displayName: "Deploy to Dev"
     variables:
       - group: YAML-DEV-VARS
