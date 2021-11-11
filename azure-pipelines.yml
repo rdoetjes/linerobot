@@ -18,6 +18,7 @@ trigger:
     include:
       - dev
       - staging
+      - dev/*
 
 pr:
       - main
