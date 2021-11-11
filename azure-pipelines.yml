@@ -31,19 +31,7 @@ stages:
     jobs:
       - job:
         steps:
-        - script: |
-            make clean
-            if [ $? -ne 0 ]; then
-                exit 1
-            fi
-          displayName: "make clean"
-          
-        - script: |
-            make
-            if [ $? -ne 0 ]; then
-                exit 1
-            fi
-          displayName: "make"
+        - template: makeclean_make.yml
         - task: CopyFiles@2
           inputs:
             SourceFolder: '$(Build.SourcesDirectory)/build/apps/'
