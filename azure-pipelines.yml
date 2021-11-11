@@ -5,14 +5,14 @@
 #Edited by Raymond Doetjes
 
 parameters:
-  - name: environment
-    displayName: Environment
+  - name: datasource
+    displayName: Datasource
     type: string
-    default: dev
+    default: rdoetjes@test.phonax.com:1433/TST
     values:
-    - dev
-    - tst
-    - prd
+    - rdoetjes@test.phonax.com:1433/TST
+    - rdoetjes@test.phonax.com:1433/ACC
+    - rdoetjes@test.phonax.com:1433/PRD
 
 trigger:
   branches:
