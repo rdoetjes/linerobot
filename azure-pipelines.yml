@@ -31,6 +31,7 @@ stages:
     jobs:
       - job:
         steps:
+        #run make clean and make
         - template: makeclean_make.yml
         - task: CopyFiles@2
           inputs:
