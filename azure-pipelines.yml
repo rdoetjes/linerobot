@@ -27,7 +27,6 @@ pr:
 pool: 'RaspberryPI'
 
 stages:
-
   - stage: Build
     displayName: "Build linefollower"
     jobs:
