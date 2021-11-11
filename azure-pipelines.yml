@@ -18,6 +18,8 @@ trigger:
     include:
       - dev
       - staging
+
+pr:
       - main
 
 pool: 'RaspberryPI'
@@ -59,6 +61,7 @@ stages:
       - group: YAML-DEV-VARS
     jobs:
       - deployment:
+        condition: ($and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
         environment: 'DEV'
         strategy:
           runOnce:
