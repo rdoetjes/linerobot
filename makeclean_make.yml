@@ -1,5 +1,4 @@
-parameters:
-
+steps:
 - script: |
     make clean
     if [ $? -ne 0 ]; then
