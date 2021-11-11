@@ -45,10 +45,10 @@ stages:
             ArtifactName: 'linefollower'
             publishLocation: 'Container'
 
-  - stage: DeployDev
+  - stage: Deploy
     #only run deploy when committed on main.
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-    displayName: "Deploy to Dev"
+    displayName: "Deploy to Robot"
     variables:
       - group: YAML-DEV-VARS
     jobs:
