@@ -19,8 +19,6 @@ trigger:
     include:
       - dev
       - staging
-
-pr:
       - main
 
 pool: 'RaspberryPI'
