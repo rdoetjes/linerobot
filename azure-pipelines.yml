@@ -3,13 +3,81 @@
 # Add steps that publish test results, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/c-cpp/gcc
 
+parameters:
+  - name: environment
+    displayName: Environment
+    type: string
+    default: dev
+    values:
+    - dev
+    - tst
+    - prd
+
 trigger:
-- main
+  branches:
+    include:
+      - dev
+      - staging
 
-pool:
-  vmImage: ubuntu-latest
+pr:
+      - main
 
-steps:
-- script: |
-    make
-  displayName: 'make'
+pool: 'RaspberryPI'
+
+stages:
+
+  - stage: Build
+    displayName: "Build linefollower"
+    jobs:
+      - job:
+        steps:
+        - script: |
+            make clean
+            if [ $? -ne 0 ]; then
+                exit 1
+            fi
+          displayName: "make clean"
+          
+        - script: |
+            make
+            if [ $? -ne 0 ]; then
+                exit 1
+            fi
+          displayName: "make"
+        - task: CopyFiles@2
+          inputs:
+            SourceFolder: '$(Build.SourcesDirectory)/build/apps/'
+            Contents: '**'
+            TargetFolder: '$(Build.ArtifactStagingDirectory)'
+        - task: PublishBuildArtifacts@1
+          inputs:
+            PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+            ArtifactName: 'linefollower'
+            publishLocation: 'Container'
+
+  - stage: DeployDev
+    #only run deploy when committed on main
+    condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/main'))
+    displayName: "Deploy to Dev"
+    variables:
+      - group: YAML-DEV-VARS
+    jobs:
+      - deployment:
+        environment: 'DEV'
+        strategy:
+          runOnce:
+            deploy:                      
+              steps:
+                - task: DownloadBuildArtifacts@1
+                  inputs:
+                    buildType: 'current'
+                    downloadType: 'single'
+                    artifactName: 'linefollower'
+                    downloadPath: '$(System.ArtifactsDirectory)'
+                
+                - task: CopyFiles@2
+                  displayName: 'Copy Files to: /home/pi/linefollower/'
+                  inputs:
+                    SourceFolder: '$(System.DefaultWorkingDirectory)/build/apps'
+                    TargetFolder: /home/pi/linefollower/
+                    OverWrite: true
