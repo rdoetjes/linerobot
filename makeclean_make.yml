@@ -1,0 +1,13 @@
+- script: |
+    make clean
+    if [ $? -ne 0 ]; then
+        exit 1
+    fi
+  displayName: "make clean"
+  
+- script: |
+    make
+    if [ $? -ne 0 ]; then
+        exit 1
+    fi
+  displayName: "make"
