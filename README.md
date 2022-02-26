@@ -1,4 +1,4 @@
-# Line Following Robot scratch build in less than 8 hours!
+# Line Following Robot (Hardware and Software) in less than 8 hours!
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/Op8cNB3CN2Y/0.jpg)](https://www.youtube.com/watch?v=Op8cNB3CN2Y)
 
