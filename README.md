@@ -1,10 +1,13 @@
-# linerobot
+# Line Following Robot scratch build in less than 8 hours!
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/Op8cNB3CN2Y/0.jpg)](https://www.youtube.com/watch?v=Op8cNB3CN2Y)
+
 
 Is a scratch build line following robot around the Pololu QTR8D sensor bar that I had found in my parts pile.
 
 The challenge for me was to build a chassis from scratch and code my own QTR8D class, Motor class and all that in a single day.
 
-The hardware is based on spare parts:
+## The hardware is based on spare parts:
 Raspberry Pi 3 (Will also work with Pi4 and most likely also Pi Zero Wifi)
 L298N H-Bridge
 11.1V Lipo for motor pow4r
